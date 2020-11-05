@@ -100,8 +100,6 @@ function AlphabetDetailData({ children }) {
     }),
   })
 
-  const shouldRenderPageToolbar = routeParams.area === WORKSPACES && selectn('response', computedCharacter)
-
   let relatedWords = []
   if (selectn('response.contextParameters.character.related_words.length', computedCharacter) > 0) {
     const relatedWordsContentMap =
@@ -137,7 +135,7 @@ function AlphabetDetailData({ children }) {
     relatedVideos: selectn('response.contextParameters.character.related_videos', computedCharacter) || [],
     relatedWords,
     routeParams,
-    shouldRenderPageToolbar,
+    shouldRenderPageToolbar: routeParams.area === WORKSPACES && selectn('response', computedCharacter),
     tabsOnChange: (e, _tabValue) => setTabValue(_tabValue),
     tabValue,
   })

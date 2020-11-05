@@ -1,5 +1,4 @@
 import React from 'react'
-// import PropTypes from 'prop-types'
 import AlphabetDetailPresentation from 'components/AlphabetDetail/AlphabetDetailPresentation'
 import AlphabetDetailData from 'components/AlphabetDetail/AlphabetDetailData'
 
@@ -56,11 +55,6 @@ function AlphabetDetailContainer() {
       }}
     </AlphabetDetailData>
   )
-}
-// PROPTYPES
-// const { string } = PropTypes
-AlphabetDetailContainer.propTypes = {
-  //   something: string,
 }
 
 export default AlphabetDetailContainer

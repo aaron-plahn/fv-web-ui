@@ -40,6 +40,23 @@ import '!style-loader!css-loader!./AlphabetDetail.css'
  *
  * @param {object} props
  *
+ * @param {string} props.character Text of character
+ * @param {object} props.computedCharacter See: PageToolbar > computeEntity
+ * @param {object} props.computedDialect2 See: PageToolbar > computePermissionEntity & PhraseListView > dialect
+ * @param {object} props.computeEntities See: PromiseWrapper
+ * @param {object} props.computeLogin See: PageToolbar > computeLogin
+ * @param {object} props.currentAppliedFilter See: WordListView > filter & PhraseListView > filter
+ * @param {object} props.intl Intl service used in multiple locations/components
+ * @param {func} props.onNavigateRequest See: PageToolbar > handleNavigateRequest
+ * @param {func} props.publishChangesAction See: PageToolbar > publishChangesAction
+ * @param {array} props.relatedAudio Populates Related Audio section: [{}]
+ * @param {array} props.relatedVideos Populates Related Video section: [{}]
+ * @param {array} props.relatedWords Populates Related Words section: [{uid, onClick, hrefPath, title}]
+ * @param {object} props.routeParams See: WordListView > routeParams & PhraseListView > routeParams
+ * @param {boolean} props.shouldRenderPageToolbar Bool to render the Workspace Toolbar
+ * @param {func} props.tabsOnChange See: FVTab > tabsOnChange
+ * @param {number} props.tabValue Controls rendering of selected tab, also see: FVTab > tabsValue
+ *
  * @returns {node} jsx markup
  */
 function AlphabetDetailPresentation({
@@ -274,10 +291,8 @@ AlphabetDetailPresentation.propTypes = {
   computeEntities: object,
   computeLogin: object,
   currentAppliedFilter: object,
-  hasMedia: boolean,
   intl: object,
   onNavigateRequest: func,
-  photos: array,
   publishChangesAction: func,
   relatedAudio: array,
   relatedVideos: array,
@@ -286,7 +301,6 @@ AlphabetDetailPresentation.propTypes = {
   shouldRenderPageToolbar: boolean,
   tabsOnChange: func,
   tabValue: number,
-  videos: array,
 }
 
 export default AlphabetDetailPresentation
