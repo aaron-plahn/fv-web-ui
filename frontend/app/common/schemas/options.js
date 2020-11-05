@@ -1304,6 +1304,13 @@ const options = {
           add: `+ ${intl.trans('add_words', 'Add Words', 'first')}`,
         },
       },
+      'fvcharacter:video': {
+        label: intl.trans('related_videos', 'Related videos', 'first'),
+        item: {
+          factory: MediaFactory,
+          type: 'FVVideo',
+        },
+      },
     },
     i18n: i18nExt,
   },
