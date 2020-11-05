@@ -25,10 +25,7 @@ import { Redirector } from 'common/Redirector'
 // import UIHelpers from 'common/UIHelpers'
 import StringHelpers from 'common/StringHelpers'
 import FVButton from 'components/FVButton'
-import Navigation from 'components/Navigation'
 import WorkspaceSwitcher from 'components/WorkspaceSwitcher'
-import KidsNavigation from 'components/Kids/navigation'
-import Footer from 'components/Footer'
 import Breadcrumb from 'components/Breadcrumb'
 
 import { PageError } from 'common/conf/pagesIndex'
@@ -139,14 +136,10 @@ export class AppFrontController extends Component {
     if (matchedPage === undefined || this.props.localeLoading) {
       isLoading = true
     }
-    const isFrontPage = !matchedPage ? false : matchedPage.get('frontpage')
 
     if (matchedPage && (matchedPageUpdated || siteThemeUpdated)) {
-      const hideNavigation = matchedPage.has('navigation') && matchedPage.get('navigation') === false
-
       let page
 
-      let navigation = <Navigation frontpage={isFrontPage} routeParams={routeParams} />
       const siteTheme = routeParams.hasOwnProperty('siteTheme') ? routeParams.siteTheme : 'default'
       // prettier-ignore
       const isPrintView = matchedPage
@@ -156,7 +149,6 @@ export class AppFrontController extends Component {
           .get('print') === true
         : false
 
-      let footer = <Footer className={'Footer--' + siteTheme + '-theme'} />
       const clonedElement = React.cloneElement(matchedPage.get('page').toJS(), { routeParams: routeParams })
 
       // For print view return page only
@@ -169,7 +161,6 @@ export class AppFrontController extends Component {
       // TODO: Make more generic if additional siteThemes are added in the future.
       if (siteTheme === 'kids') {
         page = clonedElement
-        navigation = <KidsNavigation frontpage={isFrontPage} routeParams={routeParams} />
       } else {
         // Without breadcrumbs
         if (matchedPage.get('breadcrumbs') === false) {
@@ -178,11 +169,6 @@ export class AppFrontController extends Component {
           // With breadcrumbs
           page = this._renderWithBreadcrumb(clonedElement, matchedPage, this.props, siteTheme)
         }
-      }
-
-      // Hide navigation
-      if (hideNavigation) {
-        navigation = footer = ''
       }
 
       let warning = null
@@ -205,9 +191,7 @@ export class AppFrontController extends Component {
       }
 
       this.setState({
-        footer,
         isLoading,
-        navigation,
         page,
         print,
         warning,
@@ -216,29 +200,12 @@ export class AppFrontController extends Component {
   }
 
   render() {
-    const { footer, isLoading, navigation, page, print, warning } = this.state
+    const { isLoading, page, print, warning } = this.state
 
     let toRender = null
     if (isLoading) {
       toRender = (
-        <div id="app-loader" className="app-loader">
-          <div
-            style={{
-              width: '50%',
-              margin: '50px auto',
-              border: '1px #ccc solid',
-              padding: '15px',
-              fontSize: '16pt',
-            }}
-          >
-            <p>
-              <strong>FirstVoices</strong>
-            </p>
-            <p>
-              FirstVoices is a suite of web-based tools and services designed to support Indigenous people engaged in
-              language archiving, language teaching and culture revitalization.
-            </p>
-          </div>
+        <div>
           <p>Loading / Chargement / Cargando...</p>
         </div>
       )
@@ -250,14 +217,8 @@ export class AppFrontController extends Component {
           <div>
             {warning}
             <div className="AppFrontController__inner">
-              <div id="pageNavigation" className="AppFrontController__navigation row">
-                {navigation}
-              </div>
               <div id="pageContainer" data-testid="pageContainer" className="AppFrontController__content">
                 {page}
-              </div>
-              <div id="pageFooter" className="AppFrontController__footer row">
-                {footer}
               </div>
             </div>
             <HelperModeToggle />
@@ -270,6 +231,7 @@ export class AppFrontController extends Component {
   }
 
   _getInitialState() {
+    // Replace Immutable usage here
     let routes = Immutable.fromJS(ConfRoutes)
     const contextPath = ConfGlobal.contextPath.split('/').filter((v) => v !== '')
 

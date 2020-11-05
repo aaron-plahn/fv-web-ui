@@ -113,6 +113,7 @@ module.exports = (env) => ({
   entry: {
     app: path.resolve(sourceDirectory, 'app.js'),
     game_libs: ['pixi', 'p2', 'phaser'],
+    test: path.resolve(sourceDirectory, 'test.js'),
   },
 
   // These options change how modules are resolved
