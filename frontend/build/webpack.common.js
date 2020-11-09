@@ -113,7 +113,6 @@ module.exports = (env) => ({
   entry: {
     app: path.resolve(sourceDirectory, 'app.js'),
     game_libs: ['pixi', 'p2', 'phaser'],
-    test: path.resolve(sourceDirectory, 'test.js'),
   },
 
   // These options change how modules are resolved
@@ -143,9 +142,25 @@ module.exports = (env) => ({
    * Optimizations
    */
   optimization: {
-    runtimeChunk: 'single',
+    runtimeChunk: true,
     splitChunks: {
       chunks: 'all',
+      maxInitialRequests: Infinity,
+      minSize: 0,
+      cacheGroups: {
+        reactVendor: {
+          test: /[\\/]node_modules[\\/](react|react-dom|react-redux|redux)[\\/]/,
+          name: 'core.vendors',
+        },
+        materialUI: {
+          test: /[\\/]node_modules[\\/](@material-ui)[\\/]/,
+          name: 'material-ui',
+        },
+        vendor: {
+          test: /[\\/]node_modules[\\/](!react)(!react-dom)(!react-redux)(!redux)(!@material-ui)[\\/]/,
+          name: 'vendor',
+        },
+      },
     },
   },
 
@@ -155,8 +170,8 @@ module.exports = (env) => ({
    * assets and anything else you bundle or load with webpack.
    **/
   output: {
-    filename: path.join(outputScriptsDirectory, '[name].[hash].js'),
-    chunkFilename: path.join(outputScriptsDirectory, '[name].[hash].js'),
+    filename: path.join(outputScriptsDirectory, '[name].[contenthash].js'),
+    chunkFilename: path.join(outputScriptsDirectory, '[name].[contenthash].js'),
     path: env && env.legacy ? outputDirectoryLegacy : outputDirectory,
     publicPath: '',
   },
